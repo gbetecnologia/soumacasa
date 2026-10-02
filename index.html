@@ -509,7 +509,11 @@
 
   // ---------- 1. read guest from URL hash: #Nome-g  (g = m ou f) ----------
   function parseGuest(){
-    var raw = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+    var raw = (location.hash || "").replace(/^#/, "");
+    if(!raw){
+      try{ raw = new URLSearchParams(location.search).get("nome") || ""; }catch(e){ raw = ""; }
+    }
+    try{ raw = decodeURIComponent(raw); }catch(e){}
     if(!raw) return { nome: null, genero: null };
     var parts = raw.split("-");
     var nome = parts[0] ? parts[0].trim() : null;
@@ -518,6 +522,8 @@
     if(nome) nome = nome.charAt(0).toUpperCase() + nome.slice(1);
     return { nome: nome, genero: genero };
   }
+
+  window.addEventListener("hashchange", function(){ location.reload(); });
 
   var guest = parseGuest();
   var nome = guest.nome || "você";

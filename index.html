@@ -433,7 +433,7 @@
       <p class="ask-eyebrow reveal pre">ATENÇÃO! CONVOCAÇÃO ESPECIAL</p>
 
       <p class="ask-question reveal pre" style="font-size:clamp(24px,6vw,32px);">
-        <span class="j-nome">Você</span> aceita ser <span data-g="m">nosso</span><span data-g="f" hidden>nossa</span> agente especial?
+        <span class="j-nome">Você</span>, aceita ser <span data-g="m">nosso</span><span data-g="f" hidden>nossa</span> agente especial?
       </p>
 
       <div class="reveal pre">
@@ -452,7 +452,7 @@
       </div>
 
       <p class="ask-question reveal pre">
-        <span class="j-nome">Você</span> aceita ser
+        <span class="j-nome">Você</span>, aceita ser
         <span data-g="m">nosso padrinho</span><span data-g="f" hidden>nossa madrinha</span>?
       </p>
 
@@ -484,7 +484,7 @@
       <p>os sonhos ganham espaço</p>
       <p>e o amor encontra morada.</p>
       <p>E a nossa casa também é feita das pessoas que amamos e queremos por perto.</p>
-      <p>Por isso, queremos <span class="j-nome">você</span> conosco:</p>
+      <p>Por isso, <span class="j-voc"><span class="j-nome">você</span>, </span>queremos você conosco:</p>
       <p>do empurrãozinho para aceitar o convite para sair ao nosso &ldquo;Sim&rdquo; &mdash; e em todos os capítulos que vierem depois.</p>
 
       <p class="sign">Com carinho,<br>Izânia &amp; Gabriel</p>
@@ -530,6 +530,7 @@
   var genero = guest.genero; // 'm', 'f' or null
 
   document.querySelectorAll(".j-nome").forEach(function(el){ el.textContent = nome; });
+  document.querySelectorAll(".j-voc").forEach(function(el){ el.hidden = !guest.nome; });
   var gateName = document.getElementById("gateName");
   var agentName = document.getElementById("agentName");
   if(gateName) gateName.textContent = nome;

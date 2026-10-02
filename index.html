@@ -321,7 +321,7 @@
   <div class="gate-card">
     <span class="gate-stamp">ULTRASSECRETO</span>
     <p class="gate-eyebrow">DOSSIÊ CONFIDENCIAL<br>OPERAÇÃO "SÓ UMA CASA"</p>
-    <p class="gate-to">Destinatário(a):</p>
+    <p class="gate-to j-t" data-k="gateTo">Destinatário(a):</p>
     <span class="gate-name" id="gateName">Você</span>
     <button id="gateBtn" class="seal-btn" type="button">
       <span class="wax" aria-hidden="true">
@@ -389,7 +389,7 @@
           <span class="field-value">Amor, leveza, cuidado, segurança e espaço para sermos quem somos, com muitas risadas e &ldquo;confusões&rdquo; (Muuuita confusão).</span>
         </div>
         <div class="field-row">
-          <span class="field-label">AGENTE CONVOCADO(A)</span>
+          <span class="field-label j-t" data-k="agentLbl">AGENTE CONVOCADO(A)</span>
           <span class="field-value">
             <span class="agent" id="agentName">Você</span>
             <span class="agent-note">Grandes sonhos precisam de boas companhias. 🤍</span>
@@ -433,7 +433,7 @@
       <p class="ask-eyebrow reveal pre">ATENÇÃO! CONVOCAÇÃO ESPECIAL</p>
 
       <p class="ask-question reveal pre" style="font-size:clamp(24px,6vw,32px);">
-        <span class="j-nome">Você</span>, aceita ser <span data-g="m">nosso</span><span data-g="f" hidden>nossa</span> agente especial?
+        <span class="j-t" data-k="ask1">Você, aceita ser nosso agente especial?</span>
       </p>
 
       <div class="reveal pre">
@@ -447,26 +447,25 @@
           <li>rir das nossas confusões;</li>
           <li>e continuar fazendo parte da nossa história.</li>
         </ul>
-        <p>Afinal, <span class="j-nome">você</span> não foi <span data-g="m">escolhido</span><span data-g="f" hidden>escolhida</span> apenas para estar no nosso casamento.</p>
-        <p>Foi <span data-g="m">escolhido</span><span data-g="f" hidden>escolhida</span> para continuar caminhando conosco na construção dessa vida.</p>
+        <p class="j-t" data-k="chosen1">Afinal, você não foi escolhido apenas para estar no nosso casamento.</p>
+        <p class="j-t" data-k="chosen2">Foi escolhido para continuar caminhando conosco na construção dessa vida.</p>
       </div>
 
       <p class="ask-question reveal pre">
-        <span class="j-nome">Você</span>, aceita ser
-        <span data-g="m">nosso padrinho</span><span data-g="f" hidden>nossa madrinha</span>?
+        <span class="j-t" data-k="ask2">Você, aceita ser nosso padrinho?</span>
       </p>
 
       <div class="dodge-zone reveal pre" id="dodgeZone">
         <div class="btn-row">
-          <button class="btn-sim" id="btnSim" type="button">SIM! ACEITO A MISSÃO 🤍</button>
+          <button class="btn-sim j-t" data-k="sim" id="btnSim" type="button">SIM! ACEITO A MISSÃO 🤍</button>
         </div>
         <button class="btn-nao" id="btnNao" type="button">não</button>
       </div>
       <p class="fine-print reveal pre" id="finePrint">Em caso de declínio, estabeleça-se multa de 1 salário mínimo por mês.<br>Brincadeira. Ou não. A assessoria jurídica do casal ainda está analisando. 😂</p>
       <div class="final-stamp reveal pre">MISSÃO: SÓ UMA CASA<br>PORQUE GRANDES HISTÓRIAS PRECISAM DE BOAS COMPANHIAS.</div>
       <div class="nao-modal" id="naoModal">
-        <p>Hmm&hellip; <span class="j-nome">você</span>, tem certeza mesmo? 👀<br>A gente já contava com <span class="j-nome">você</span> nos planos.</p>
-        <button class="btn-sim" id="btnNaoAccept" type="button">Ok, aceito mesmo assim 😅</button>
+        <p class="j-t" data-k="modal">Hmm&hellip; você, tem certeza mesmo? 👀<br>A gente já contava com você nos planos.</p>
+        <button class="btn-sim j-t" data-k="modalBtn" id="btnNaoAccept" type="button">Ok, aceito mesmo assim 😅</button>
       </div>
     </div>
   </section>
@@ -484,7 +483,7 @@
       <p>os sonhos ganham espaço</p>
       <p>e o amor encontra morada.</p>
       <p>E a nossa casa também é feita das pessoas que amamos e queremos por perto.</p>
-      <p>Por isso, <span class="j-voc"><span class="j-nome">você</span>, </span>queremos você conosco:</p>
+      <p class="j-t" data-k="want">Por isso, queremos você conosco:</p>
       <p>do empurrãozinho para aceitar o convite para sair ao nosso &ldquo;Sim&rdquo; &mdash; e em todos os capítulos que vierem depois.</p>
 
       <p class="sign">Com carinho,<br>Izânia &amp; Gabriel</p>
@@ -497,7 +496,7 @@
 
       <button class="replay" id="replayBtn" type="button">◂ reviver a missão desde o início</button>
 
-      <footer class="note" id="footerNote">feito com 🤍 para <span class="j-nome">você</span>, <span data-g="m">nosso padrinho</span><span data-g="f" hidden>nossa madrinha</span> oficial.</footer>
+      <footer class="note" id="footerNote"><span class="j-t" data-k="footer">feito com 🤍 para você, nosso padrinho oficial.</span></footer>
     </div>
   </section>
 </main>
@@ -507,42 +506,71 @@
 (function(){
   "use strict";
 
-  // ---------- 1. read guest from URL hash: #Nome-g  (g = m ou f) ----------
+  // ---------- 1. read guest(s) from URL: #Nome-g  |  ?nome=Nome-g  |  couple: Nome1,Nome2-mf ----------
+  // g = m ou f (uma letra por pessoa, na ordem dos nomes)
   function parseGuest(){
     var raw = (location.hash || "").replace(/^#/, "");
     if(!raw){
       try{ raw = new URLSearchParams(location.search).get("nome") || ""; }catch(e){ raw = ""; }
     }
     try{ raw = decodeURIComponent(raw); }catch(e){}
-    if(!raw) return { nome: null, genero: null };
-    var parts = raw.split("-");
-    var nome = parts[0] ? parts[0].trim() : null;
-    var g = (parts[1] || "").toLowerCase();
-    var genero = (g === "f" || g === "m") ? g : null;
-    if(nome) nome = nome.charAt(0).toUpperCase() + nome.slice(1);
-    return { nome: nome, genero: genero };
+    if(!raw) return { nomes: [], generos: [] };
+    var letters = "";
+    var m = raw.match(/^(.*)-([mfMF]+)$/);
+    if(m){ raw = m[1]; letters = m[2].toLowerCase(); }
+    var nomes = raw.split(/[,+]/).map(function(n){ return n.trim(); }).filter(Boolean).map(function(n){
+      return n.charAt(0).toUpperCase() + n.slice(1);
+    });
+    return { nomes: nomes, generos: letters.split("") };
+  }
+
+  function joinNames(list){
+    if(list.length <= 1) return list[0] || "";
+    return list.slice(0, -1).join(", ") + " e " + list[list.length - 1];
   }
 
   window.addEventListener("hashchange", function(){ location.reload(); });
 
   var guest = parseGuest();
-  var nome = guest.nome || "você";
-  var genero = guest.genero; // 'm', 'f' or null
+  var hasGuest = guest.nomes.length > 0;
+  var plural = guest.nomes.length > 1;
+  var nome = hasGuest ? joinNames(guest.nomes) : "você";
+  // plural: masculino se houver pelo menos um homem (ou gênero não informado); feminino só se todas forem mulheres
+  var genero = (plural
+      ? (guest.generos.length === guest.nomes.length && guest.generos.every(function(x){ return x === "f"; }) ? "f" : "m")
+      : (guest.generos[0] === "f" ? "f" : "m"));
+  var f = genero === "f";
 
-  document.querySelectorAll(".j-nome").forEach(function(el){ el.textContent = nome; });
-  document.querySelectorAll(".j-voc").forEach(function(el){ el.hidden = !guest.nome; });
+  var TEXT = {
+    gateTo:   plural ? (f ? "Destinatárias:" : "Destinatários:") : (f ? "Destinatária:" : "Destinatário:"),
+    agentLbl: plural ? (f ? "AGENTES CONVOCADAS" : "AGENTES CONVOCADOS") : (f ? "AGENTE CONVOCADA" : "AGENTE CONVOCADO"),
+    ask1:     nome + ", " + (plural ? "aceitam ser " + (f ? "nossas" : "nossos") + " agentes especiais?" : "aceita ser " + (f ? "nossa" : "nosso") + " agente especial?"),
+    chosen1:  "Afinal, " + nome + (plural ? " não foram " + (f ? "escolhidas" : "escolhidos") : " não foi " + (f ? "escolhida" : "escolhido")) + " apenas para estar no nosso casamento.",
+    chosen2:  (plural ? "Foram " + (f ? "escolhidas" : "escolhidos") : "Foi " + (f ? "escolhida" : "escolhido")) + " para continuar caminhando conosco na construção dessa vida.",
+    ask2:     nome + ", " + (plural ? "aceitam ser " + (f ? "nossas madrinhas" : "nossos padrinhos") + "?" : "aceita ser " + (f ? "nossa madrinha" : "nosso padrinho") + "?"),
+    sim:      plural ? "SIM! ACEITAMOS A MISSÃO 🤍" : "SIM! ACEITO A MISSÃO 🤍",
+    modal:    "Hmm… " + nome + ", tem certeza mesmo? 👀\nA gente já contava com " + (plural ? "vocês" : nome) + " nos planos.",
+    modalBtn: plural ? "Ok, aceitamos mesmo assim 😅" : "Ok, aceito mesmo assim 😅",
+    want:     "Por isso, " + nome + ", queremos " + (plural ? "vocês" : "você") + " conosco:",
+    footer:   "feito com 🤍 para " + nome + ", " + (plural ? (f ? "nossas madrinhas oficiais." : "nossos padrinhos oficiais.") : (f ? "nossa madrinha oficial." : "nosso padrinho oficial."))
+  };
+
+  if(hasGuest){
+    document.querySelectorAll(".j-t").forEach(function(el){
+      var key = el.getAttribute("data-k");
+      if(!TEXT.hasOwnProperty(key)) return;
+      var parts = TEXT[key].split("\n");
+      el.textContent = "";
+      parts.forEach(function(line, i){
+        if(i) el.appendChild(document.createElement("br"));
+        el.appendChild(document.createTextNode(line));
+      });
+    });
+  }
   var gateName = document.getElementById("gateName");
   var agentName = document.getElementById("agentName");
   if(gateName) gateName.textContent = nome;
   if(agentName) agentName.textContent = nome;
-
-  if(genero){
-    document.querySelectorAll('[data-g]').forEach(function(el){
-      var match = el.getAttribute('data-g') === genero;
-      el.hidden = !match;
-    });
-  }
-  // if genero unknown, leave default masculine text visible (already the non-hidden default)
 
   // ---------- 2. stages: one full-screen "page" at a time, advanced only by click ----------
   var stages = Array.prototype.slice.call(document.querySelectorAll(".stage"));
@@ -607,7 +635,7 @@
     "> Escaneando corações compatíveis...",
     "> Critérios: presença, parceria, risadas, colo nas horas difíceis...",
     "> Processando...",
-    "> ALVO LOCALIZADO: " + nome.toUpperCase(),
+    (plural ? "> ALVOS LOCALIZADOS: " : "> ALVO LOCALIZADO: ") + nome.toUpperCase(),
     "> Compatibilidade: 100%",
     "> Redirecionando para Central de Convocação..."
   ];
